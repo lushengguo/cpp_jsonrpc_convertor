@@ -20,14 +20,11 @@ def format_cpp_code(content, style="Google"):
     except FileNotFoundError:
         raise RuntimeError("clang-format not found. Please install clang-format.")
 
-
-def random_suffix(length=4):
-    """Generate a random suffix of given length."""
-    import random
-    import string
-
-    return "".join(random.choices(string.ascii_letters + string.digits, k=length))
-
+index = 0
+def stable_unique_suffix():
+    global index
+    index += 1
+    return str(index)
 
 def type_remove_const_and_pointer(type_str):
     """Remove 'const' and '*' from the type string."""
@@ -125,13 +122,13 @@ class Variable:
     def unformat_vector_name(self):
         if self._unformat_vector_name is not None:
             return self._unformat_vector_name
-        self._unformat_vector_name = f"{self._name}_vector_{random_suffix()}"
+        self._unformat_vector_name = f"{self._name}_vector_{stable_unique_suffix()}"
         return self._unformat_vector_name
 
     def unformat_pointer_name(self):
         if self._unformat_pointer_name is not None:
             return self._unformat_pointer_name
-        self._unformat_pointer_name = f"{self._name}_ptr_{random_suffix()}"
+        self._unformat_pointer_name = f"{self._name}_ptr_{stable_unique_suffix()}"
         return self._unformat_pointer_name
 
     def input_name_in_test(self):
@@ -155,7 +152,7 @@ class Method:
         self._name = name
         self._return_type = return_type
         self._args = args
-        self._rpc_internal_name = f"{name}_{random_suffix()}"
+        self._rpc_internal_name = f"{name}_{stable_unique_suffix()}"
 
     def __str__(self):
         return f"{self._return_type} {self._name}({self.arg_list()});"
@@ -540,7 +537,7 @@ if __name__ == "__main__":
     entrance(
         "hooks_rpc_interface.h",
         "hooks_rpc_interface",
-        "executor_rpc_client",
-        "plugin_rpc_server",
+        "plugin_rpc_client",
+        "executor_rpc_server",
     )
 ""
