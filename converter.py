@@ -109,7 +109,7 @@ class Variable:
 
         return f"""
             auto {self.unformat_vector_name()} = ::rpc_parse<{type_remove_const_and_pointer(self._type)}>(
-                rpc_result.get<{ouput_rank_index}>());
+                std::get<{ouput_rank_index}>(rpc_result));
             {self._type} {self.unformat_pointer_name()} = {self.unformat_vector_name()}.data();
         """
 
@@ -247,7 +247,7 @@ class RpcGenerator:
             )
 
         body = f"""
-        class {self._client_class_name} : public json_rpc_client {{
+        class {self._client_class_name} : public json_rpc_client, public {self._interface_class_name} {{
         public:
             {self._client_class_name}(std::string rpc_server_ip, unsigned short rpc_server_port)
                 : json_rpc_client(rpc_server_ip, rpc_server_port){{}}
@@ -267,7 +267,8 @@ class RpcGenerator:
             #include "jsonrpc.h"
             #include "client.h"
             #include "server.h"
-            #include "functional"
+            #include "interface.h"
+            #include <functional>
         """
         body = ""
         for method in self._methods:
@@ -284,13 +285,23 @@ class RpcGenerator:
                 ", ".join(arg.client_side_serialize() for arg in method._args)
             )
             make_tuple_part = f",{make_tuple_part}" if len(make_tuple_part) > 0 else ""
+
+            parse_future_part = ""
+            if method.jsonrpc_return_type() == "void":
+                parse_future_part = "future.get();"
+            else:
+                parse_future_part = f"""
+                    auto future_result = future.get().result;
+                    auto rpc_result = boost::json::value_to<{method.jsonrpc_return_type()}>(future_result);
+                """
+
             body += f"""
             try{{
                 auto future = packio_client_->async_call("{method._rpc_internal_name}"{make_tuple_part}, net::use_future);
-                {"auto rpc_result = " if not method.return_type_is_void() else ""} future.get().result;
+                {parse_future_part}
                 {deserialize_body}
                 
-                {"" if method.return_type_is_void() else f"return rpc_result.get<0>();"}
+                {"" if method.return_type_is_void() else f"return std::get<0>(rpc_result);"}
             }} catch (const std::exception& e) {{
                 SPDLOG_CRITICAL("RPC call failed: {{}}", e.what());
                 {"" if method.return_type_is_void() else "return -1;"}  
@@ -321,7 +332,8 @@ class RpcGenerator:
             #include "jsonrpc.h"
             #include "client.h"
             #include "server.h"
-            #include "functional"
+            #include "interface.h"
+            #include <functional>
         """
         body = f"inline bool {self._server_class_name}::register_method(){{"
         for method in self._methods:
@@ -334,6 +346,8 @@ class RpcGenerator:
                 if arg.is_pointer():
                     service_body += arg.deserialize_server_side(True)
                     callback_input_list.append(arg.unformat_pointer_name())
+                elif arg._type == "LPCSTR":
+                    callback_input_list.append(arg.name_in_json() + ".c_str()")
                 else:
                     callback_input_list.append(arg.name_in_json())
 
@@ -388,7 +402,9 @@ class RpcGenerator:
         #include "jsonrpc.h"
         #include "client.h"
         #include "server.h"
-        #include "functional"
+        #include "interface.h"
+        #include <functional>
+        #include "test_helper.h"
         """
         for method in self._methods:
             first_argument = "RpcTestFixture"
@@ -416,16 +432,14 @@ class RpcGenerator:
             for arg in method._args:
                 first_argument = "&" + arg.input_name_in_test()
                 second_argument = arg._name if arg.is_pointer() else "&" + arg._name
-                callback_body += (
-                    f"EXPECT_TRUE(memcmp({first_argument}, {second_argument}), 0);\n"
-                )
+                callback_body += f"EXPECT_EQ(memcmp({first_argument}, {second_argument}, sizeof({arg._type.replace('*', '')})), 0);\n"
 
             callback_body += "\n\n// assign output\n"
             for arg in method._args:
                 if arg.is_output():
                     first_argument = arg._name if arg.is_pointer() else "&" + arg._name
                     second_argument = "&" + arg.output_name_in_test()
-                    callback_body += f"memcpy({first_argument}, {second_argument});\n"
+                    callback_body += f"memcpy({first_argument}, {second_argument}, sizeof({arg._type.replace('*', '')}));\n"
             callback_body += "\n\n// return value\n"
             if method._return_type != "void":
                 callback_body += f"return rpc_result_output;\n"
@@ -443,7 +457,7 @@ class RpcGenerator:
                 if arg.is_output():
                     first_argument = "&" + arg.output_name_in_test()
                     second_argument = "&" + arg.input_name_in_test()
-                    body += f"EXPECT_TRUE(memcmp({first_argument}, {second_argument}), 0);\n"
+                    body += f"EXPECT_EQ(memcmp({first_argument}, {second_argument}, sizeof({arg._type.replace('*', '')})), 0);\n"
 
             body += f"}}\n\n"
 

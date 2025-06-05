@@ -1,12 +1,15 @@
 
 #include <gtest/gtest.h>
 
+#include <functional>
+
 #include "client.h"
 #include "define.h"
-#include "functional"
+#include "interface.h"
 #include "jsonrpc.h"
 #include "server.h"
-TEST_F(RpcTestFixture, MtSrvAbout_G7DX) {
+#include "test_helper.h"
+TEST_F(RpcTestFixture, MtSrvAbout_xag0) {
   // input parameters
   testA info_input = random_value<testA>();
 
@@ -14,12 +17,12 @@ TEST_F(RpcTestFixture, MtSrvAbout_G7DX) {
   testA info_output = random_value<testA>();
 
   // diy callback
-  server->MtSrvAbout_G7DX_callback_ = [&](testA* info) {
+  server->MtSrvAbout_xag0_callback_ = [&](testA* info) {
     // check input
-    EXPECT_TRUE(memcmp(&info_input, info), 0);
+    EXPECT_EQ(memcmp(&info_input, info, sizeof(testA)), 0);
 
     // assign output
-    memcpy(info, &info_output);
+    memcpy(info, &info_output, sizeof(testA));
 
     // return value
   };
@@ -28,10 +31,10 @@ TEST_F(RpcTestFixture, MtSrvAbout_G7DX) {
   client->MtSrvAbout_Rpc(&info_input);
 
   // check the result
-  EXPECT_TRUE(memcmp(&info_output, &info_input), 0);
+  EXPECT_EQ(memcmp(&info_output, &info_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvStartup_E0gE) {
+TEST_F(RpcTestFixture, MtSrvStartup_wqvx) {
   // input parameters
 
   // output parameters
@@ -40,7 +43,7 @@ TEST_F(RpcTestFixture, MtSrvStartup_E0gE) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvStartup_E0gE_callback_ = [&]() {
+  server->MtSrvStartup_wqvx_callback_ = [&]() {
     // check input
 
     // assign output
@@ -56,13 +59,13 @@ TEST_F(RpcTestFixture, MtSrvStartup_E0gE) {
   EXPECT_EQ(rpc_result, rpc_result_output);
 }
 
-TEST_F(RpcTestFixture, MtSrvCleanup_PKHr) {
+TEST_F(RpcTestFixture, MtSrvCleanup_cnya) {
   // input parameters
 
   // output parameters
 
   // diy callback
-  server->MtSrvCleanup_PKHr_callback_ = [&]() {
+  server->MtSrvCleanup_cnya_callback_ = [&]() {
     // check input
 
     // assign output
@@ -76,7 +79,7 @@ TEST_F(RpcTestFixture, MtSrvCleanup_PKHr) {
   // check the result
 }
 
-TEST_F(RpcTestFixture, MtSrvPluginCfgAdd_CbA0) {
+TEST_F(RpcTestFixture, MtSrvPluginCfgAdd_lLd3) {
   // input parameters
   testA cfg_input = random_value<testA>();
 
@@ -86,9 +89,9 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgAdd_CbA0) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvPluginCfgAdd_CbA0_callback_ = [&](const testA* cfg) {
+  server->MtSrvPluginCfgAdd_lLd3_callback_ = [&](const testA* cfg) {
     // check input
-    EXPECT_TRUE(memcmp(&cfg_input, cfg), 0);
+    EXPECT_EQ(memcmp(&cfg_input, cfg, sizeof(const testA)), 0);
 
     // assign output
 
@@ -103,7 +106,7 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgAdd_CbA0) {
   EXPECT_EQ(rpc_result, rpc_result_output);
 }
 
-TEST_F(RpcTestFixture, MtSrvPluginCfgSet_tifQ) {
+TEST_F(RpcTestFixture, MtSrvPluginCfgSet_TmFN) {
   // input parameters
   testA values_input = random_value<testA>();
   const int total_input = random_value<int>();
@@ -114,11 +117,11 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgSet_tifQ) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvPluginCfgSet_tifQ_callback_ = [&](const testA* values,
+  server->MtSrvPluginCfgSet_TmFN_callback_ = [&](const testA* values,
                                                  const int total) {
     // check input
-    EXPECT_TRUE(memcmp(&values_input, values), 0);
-    EXPECT_TRUE(memcmp(&total_input, &total), 0);
+    EXPECT_EQ(memcmp(&values_input, values, sizeof(const testA)), 0);
+    EXPECT_EQ(memcmp(&total_input, &total, sizeof(const int)), 0);
 
     // assign output
 
@@ -133,7 +136,7 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgSet_tifQ) {
   EXPECT_EQ(rpc_result, rpc_result_output);
 }
 
-TEST_F(RpcTestFixture, MtSrvPluginCfgDelete_vkKH) {
+TEST_F(RpcTestFixture, MtSrvPluginCfgDelete_nUU9) {
   // input parameters
   LPCSTR name_input = "abcdefg";
 
@@ -143,9 +146,9 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgDelete_vkKH) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvPluginCfgDelete_vkKH_callback_ = [&](LPCSTR name) {
+  server->MtSrvPluginCfgDelete_nUU9_callback_ = [&](LPCSTR name) {
     // check input
-    EXPECT_TRUE(memcmp(&name_input, &name), 0);
+    EXPECT_EQ(memcmp(&name_input, &name, sizeof(LPCSTR)), 0);
 
     // assign output
 
@@ -160,7 +163,7 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgDelete_vkKH) {
   EXPECT_EQ(rpc_result, rpc_result_output);
 }
 
-TEST_F(RpcTestFixture, MtSrvPluginCfgGet_WMtN) {
+TEST_F(RpcTestFixture, MtSrvPluginCfgGet_Pc04) {
   // input parameters
   LPCSTR name_input = "abcdefg";
   testA cfg_input = random_value<testA>();
@@ -172,13 +175,13 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgGet_WMtN) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvPluginCfgGet_WMtN_callback_ = [&](LPCSTR name, testA* cfg) {
+  server->MtSrvPluginCfgGet_Pc04_callback_ = [&](LPCSTR name, testA* cfg) {
     // check input
-    EXPECT_TRUE(memcmp(&name_input, &name), 0);
-    EXPECT_TRUE(memcmp(&cfg_input, cfg), 0);
+    EXPECT_EQ(memcmp(&name_input, &name, sizeof(LPCSTR)), 0);
+    EXPECT_EQ(memcmp(&cfg_input, cfg, sizeof(testA)), 0);
 
     // assign output
-    memcpy(cfg, &cfg_output);
+    memcpy(cfg, &cfg_output, sizeof(testA));
 
     // return value
     return rpc_result_output;
@@ -189,10 +192,10 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgGet_WMtN) {
 
   // check the result
   EXPECT_EQ(rpc_result, rpc_result_output);
-  EXPECT_TRUE(memcmp(&cfg_output, &cfg_input), 0);
+  EXPECT_EQ(memcmp(&cfg_output, &cfg_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvPluginCfgNext_9LGj) {
+TEST_F(RpcTestFixture, MtSrvPluginCfgNext_sQ05) {
   // input parameters
   const int index_input = random_value<int>();
   testA cfg_input = random_value<testA>();
@@ -204,13 +207,13 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgNext_9LGj) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvPluginCfgNext_9LGj_callback_ = [&](const int index, testA* cfg) {
+  server->MtSrvPluginCfgNext_sQ05_callback_ = [&](const int index, testA* cfg) {
     // check input
-    EXPECT_TRUE(memcmp(&index_input, &index), 0);
-    EXPECT_TRUE(memcmp(&cfg_input, cfg), 0);
+    EXPECT_EQ(memcmp(&index_input, &index, sizeof(const int)), 0);
+    EXPECT_EQ(memcmp(&cfg_input, cfg, sizeof(testA)), 0);
 
     // assign output
-    memcpy(cfg, &cfg_output);
+    memcpy(cfg, &cfg_output, sizeof(testA));
 
     // return value
     return rpc_result_output;
@@ -221,10 +224,10 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgNext_9LGj) {
 
   // check the result
   EXPECT_EQ(rpc_result, rpc_result_output);
-  EXPECT_TRUE(memcmp(&cfg_output, &cfg_input), 0);
+  EXPECT_EQ(memcmp(&cfg_output, &cfg_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvPluginCfgTotal_cffM) {
+TEST_F(RpcTestFixture, MtSrvPluginCfgTotal_3ToP) {
   // input parameters
 
   // output parameters
@@ -233,7 +236,7 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgTotal_cffM) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvPluginCfgTotal_cffM_callback_ = [&]() {
+  server->MtSrvPluginCfgTotal_3ToP_callback_ = [&]() {
     // check input
 
     // assign output
@@ -249,7 +252,7 @@ TEST_F(RpcTestFixture, MtSrvPluginCfgTotal_cffM) {
   EXPECT_EQ(rpc_result, rpc_result_output);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradeRequestApply_yL5z) {
+TEST_F(RpcTestFixture, MtSrvTradeRequestApply_uuVJ) {
   // input parameters
   testA request_input = random_value<testA>();
   const int isdemo_input = random_value<int>();
@@ -258,14 +261,14 @@ TEST_F(RpcTestFixture, MtSrvTradeRequestApply_yL5z) {
   testA request_output = random_value<testA>();
 
   // diy callback
-  server->MtSrvTradeRequestApply_yL5z_callback_ = [&](testA* request,
+  server->MtSrvTradeRequestApply_uuVJ_callback_ = [&](testA* request,
                                                       const int isdemo) {
     // check input
-    EXPECT_TRUE(memcmp(&request_input, request), 0);
-    EXPECT_TRUE(memcmp(&isdemo_input, &isdemo), 0);
+    EXPECT_EQ(memcmp(&request_input, request, sizeof(testA)), 0);
+    EXPECT_EQ(memcmp(&isdemo_input, &isdemo, sizeof(const int)), 0);
 
     // assign output
-    memcpy(request, &request_output);
+    memcpy(request, &request_output, sizeof(testA));
 
     // return value
   };
@@ -274,10 +277,10 @@ TEST_F(RpcTestFixture, MtSrvTradeRequestApply_yL5z) {
   client->MtSrvTradeRequestApply_Rpc(&request_input, isdemo_input);
 
   // check the result
-  EXPECT_TRUE(memcmp(&request_output, &request_input), 0);
+  EXPECT_EQ(memcmp(&request_output, &request_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradeStopsFilter_l8h6) {
+TEST_F(RpcTestFixture, MtSrvTradeStopsFilter_Bi0U) {
   // input parameters
   testA group_input = random_value<testA>();
   testA symbol_input = random_value<testA>();
@@ -289,12 +292,12 @@ TEST_F(RpcTestFixture, MtSrvTradeStopsFilter_l8h6) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvTradeStopsFilter_l8h6_callback_ =
+  server->MtSrvTradeStopsFilter_Bi0U_callback_ =
       [&](const testA* group, const testA* symbol, const testA* trade) {
         // check input
-        EXPECT_TRUE(memcmp(&group_input, group), 0);
-        EXPECT_TRUE(memcmp(&symbol_input, symbol), 0);
-        EXPECT_TRUE(memcmp(&trade_input, trade), 0);
+        EXPECT_EQ(memcmp(&group_input, group, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&symbol_input, symbol, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&trade_input, trade, sizeof(const testA)), 0);
 
         // assign output
 
@@ -310,7 +313,7 @@ TEST_F(RpcTestFixture, MtSrvTradeStopsFilter_l8h6) {
   EXPECT_EQ(rpc_result, rpc_result_output);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradeStopsApply_oFkn) {
+TEST_F(RpcTestFixture, MtSrvTradeStopsApply_2crI) {
   // input parameters
   testA user_input = random_value<testA>();
   testA group_input = random_value<testA>();
@@ -325,18 +328,18 @@ TEST_F(RpcTestFixture, MtSrvTradeStopsApply_oFkn) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvTradeStopsApply_oFkn_callback_ =
+  server->MtSrvTradeStopsApply_2crI_callback_ =
       [&](const testA* user, const testA* group, const testA* symbol,
           testA* trade, const int isTP) {
         // check input
-        EXPECT_TRUE(memcmp(&user_input, user), 0);
-        EXPECT_TRUE(memcmp(&group_input, group), 0);
-        EXPECT_TRUE(memcmp(&symbol_input, symbol), 0);
-        EXPECT_TRUE(memcmp(&trade_input, trade), 0);
-        EXPECT_TRUE(memcmp(&isTP_input, &isTP), 0);
+        EXPECT_EQ(memcmp(&user_input, user, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&group_input, group, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&symbol_input, symbol, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&trade_input, trade, sizeof(testA)), 0);
+        EXPECT_EQ(memcmp(&isTP_input, &isTP, sizeof(const int)), 0);
 
         // assign output
-        memcpy(trade, &trade_output);
+        memcpy(trade, &trade_output, sizeof(testA));
 
         // return value
         return rpc_result_output;
@@ -348,10 +351,10 @@ TEST_F(RpcTestFixture, MtSrvTradeStopsApply_oFkn) {
 
   // check the result
   EXPECT_EQ(rpc_result, rpc_result_output);
-  EXPECT_TRUE(memcmp(&trade_output, &trade_input), 0);
+  EXPECT_EQ(memcmp(&trade_output, &trade_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradePendingsFilter_0RQG) {
+TEST_F(RpcTestFixture, MtSrvTradePendingsFilter_91ay) {
   // input parameters
   testA group_input = random_value<testA>();
   testA symbol_input = random_value<testA>();
@@ -363,12 +366,12 @@ TEST_F(RpcTestFixture, MtSrvTradePendingsFilter_0RQG) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvTradePendingsFilter_0RQG_callback_ =
+  server->MtSrvTradePendingsFilter_91ay_callback_ =
       [&](const testA* group, const testA* symbol, const testA* trade) {
         // check input
-        EXPECT_TRUE(memcmp(&group_input, group), 0);
-        EXPECT_TRUE(memcmp(&symbol_input, symbol), 0);
-        EXPECT_TRUE(memcmp(&trade_input, trade), 0);
+        EXPECT_EQ(memcmp(&group_input, group, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&symbol_input, symbol, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&trade_input, trade, sizeof(const testA)), 0);
 
         // assign output
 
@@ -384,7 +387,7 @@ TEST_F(RpcTestFixture, MtSrvTradePendingsFilter_0RQG) {
   EXPECT_EQ(rpc_result, rpc_result_output);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradePendingsApply_p9q6) {
+TEST_F(RpcTestFixture, MtSrvTradePendingsApply_4QyA) {
   // input parameters
   testA user_input = random_value<testA>();
   testA group_input = random_value<testA>();
@@ -399,18 +402,18 @@ TEST_F(RpcTestFixture, MtSrvTradePendingsApply_p9q6) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvTradePendingsApply_p9q6_callback_ =
+  server->MtSrvTradePendingsApply_4QyA_callback_ =
       [&](const testA* user, const testA* group, const testA* symbol,
           const testA* pending, testA* trade) {
         // check input
-        EXPECT_TRUE(memcmp(&user_input, user), 0);
-        EXPECT_TRUE(memcmp(&group_input, group), 0);
-        EXPECT_TRUE(memcmp(&symbol_input, symbol), 0);
-        EXPECT_TRUE(memcmp(&pending_input, pending), 0);
-        EXPECT_TRUE(memcmp(&trade_input, trade), 0);
+        EXPECT_EQ(memcmp(&user_input, user, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&group_input, group, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&symbol_input, symbol, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&pending_input, pending, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&trade_input, trade, sizeof(testA)), 0);
 
         // assign output
-        memcpy(trade, &trade_output);
+        memcpy(trade, &trade_output, sizeof(testA));
 
         // return value
         return rpc_result_output;
@@ -422,10 +425,10 @@ TEST_F(RpcTestFixture, MtSrvTradePendingsApply_p9q6) {
 
   // check the result
   EXPECT_EQ(rpc_result, rpc_result_output);
-  EXPECT_TRUE(memcmp(&trade_output, &trade_input), 0);
+  EXPECT_EQ(memcmp(&trade_output, &trade_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradeStopoutsFilter_zpw6) {
+TEST_F(RpcTestFixture, MtSrvTradeStopoutsFilter_FmdX) {
   // input parameters
   testA group_input = random_value<testA>();
   testA symbol_input = random_value<testA>();
@@ -439,15 +442,15 @@ TEST_F(RpcTestFixture, MtSrvTradeStopoutsFilter_zpw6) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvTradeStopoutsFilter_zpw6_callback_ =
+  server->MtSrvTradeStopoutsFilter_FmdX_callback_ =
       [&](const testA* group, const testA* symbol, const int login,
           const double equity, const double margin) {
         // check input
-        EXPECT_TRUE(memcmp(&group_input, group), 0);
-        EXPECT_TRUE(memcmp(&symbol_input, symbol), 0);
-        EXPECT_TRUE(memcmp(&login_input, &login), 0);
-        EXPECT_TRUE(memcmp(&equity_input, &equity), 0);
-        EXPECT_TRUE(memcmp(&margin_input, &margin), 0);
+        EXPECT_EQ(memcmp(&group_input, group, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&symbol_input, symbol, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&login_input, &login, sizeof(const int)), 0);
+        EXPECT_EQ(memcmp(&equity_input, &equity, sizeof(const double)), 0);
+        EXPECT_EQ(memcmp(&margin_input, &margin, sizeof(const double)), 0);
 
         // assign output
 
@@ -463,7 +466,7 @@ TEST_F(RpcTestFixture, MtSrvTradeStopoutsFilter_zpw6) {
   EXPECT_EQ(rpc_result, rpc_result_output);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradeStopoutsApply_7mFc) {
+TEST_F(RpcTestFixture, MtSrvTradeStopoutsApply_n4Jz) {
   // input parameters
   testA user_input = random_value<testA>();
   testA group_input = random_value<testA>();
@@ -477,17 +480,17 @@ TEST_F(RpcTestFixture, MtSrvTradeStopoutsApply_7mFc) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvTradeStopoutsApply_7mFc_callback_ =
+  server->MtSrvTradeStopoutsApply_n4Jz_callback_ =
       [&](const testA* user, const testA* group, const testA* symbol,
           testA* stopout) {
         // check input
-        EXPECT_TRUE(memcmp(&user_input, user), 0);
-        EXPECT_TRUE(memcmp(&group_input, group), 0);
-        EXPECT_TRUE(memcmp(&symbol_input, symbol), 0);
-        EXPECT_TRUE(memcmp(&stopout_input, stopout), 0);
+        EXPECT_EQ(memcmp(&user_input, user, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&group_input, group, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&symbol_input, symbol, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&stopout_input, stopout, sizeof(testA)), 0);
 
         // assign output
-        memcpy(stopout, &stopout_output);
+        memcpy(stopout, &stopout_output, sizeof(testA));
 
         // return value
         return rpc_result_output;
@@ -499,10 +502,10 @@ TEST_F(RpcTestFixture, MtSrvTradeStopoutsApply_7mFc) {
 
   // check the result
   EXPECT_EQ(rpc_result, rpc_result_output);
-  EXPECT_TRUE(memcmp(&stopout_output, &stopout_input), 0);
+  EXPECT_EQ(memcmp(&stopout_output, &stopout_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradesAddRequest_RkK3) {
+TEST_F(RpcTestFixture, MtSrvTradesAddRequest_MuDN) {
   // input parameters
   testA trade_input = random_value<testA>();
   testA request_input = random_value<testA>();
@@ -514,18 +517,18 @@ TEST_F(RpcTestFixture, MtSrvTradesAddRequest_RkK3) {
   testA trade_output = random_value<testA>();
 
   // diy callback
-  server->MtSrvTradesAddRequest_RkK3_callback_ =
+  server->MtSrvTradesAddRequest_MuDN_callback_ =
       [&](testA* trade, const testA* request, const testA* user,
           const testA* symbol, const int mode) {
         // check input
-        EXPECT_TRUE(memcmp(&trade_input, trade), 0);
-        EXPECT_TRUE(memcmp(&request_input, request), 0);
-        EXPECT_TRUE(memcmp(&user_input, user), 0);
-        EXPECT_TRUE(memcmp(&symbol_input, symbol), 0);
-        EXPECT_TRUE(memcmp(&mode_input, &mode), 0);
+        EXPECT_EQ(memcmp(&trade_input, trade, sizeof(testA)), 0);
+        EXPECT_EQ(memcmp(&request_input, request, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&user_input, user, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&symbol_input, symbol, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&mode_input, &mode, sizeof(const int)), 0);
 
         // assign output
-        memcpy(trade, &trade_output);
+        memcpy(trade, &trade_output, sizeof(testA));
 
         // return value
       };
@@ -535,10 +538,10 @@ TEST_F(RpcTestFixture, MtSrvTradesAddRequest_RkK3) {
                                     &symbol_input, mode_input);
 
   // check the result
-  EXPECT_TRUE(memcmp(&trade_output, &trade_input), 0);
+  EXPECT_EQ(memcmp(&trade_output, &trade_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradeTransaction_c7kx) {
+TEST_F(RpcTestFixture, MtSrvTradeTransaction_K8PA) {
   // input parameters
   testA trade_input = random_value<testA>();
   testA user_input = random_value<testA>();
@@ -553,17 +556,17 @@ TEST_F(RpcTestFixture, MtSrvTradeTransaction_c7kx) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvTradeTransaction_c7kx_callback_ = [&](testA* trade, testA* user,
+  server->MtSrvTradeTransaction_K8PA_callback_ = [&](testA* trade, testA* user,
                                                      testA* request_id) {
     // check input
-    EXPECT_TRUE(memcmp(&trade_input, trade), 0);
-    EXPECT_TRUE(memcmp(&user_input, user), 0);
-    EXPECT_TRUE(memcmp(&request_id_input, request_id), 0);
+    EXPECT_EQ(memcmp(&trade_input, trade, sizeof(testA)), 0);
+    EXPECT_EQ(memcmp(&user_input, user, sizeof(testA)), 0);
+    EXPECT_EQ(memcmp(&request_id_input, request_id, sizeof(testA)), 0);
 
     // assign output
-    memcpy(trade, &trade_output);
-    memcpy(user, &user_output);
-    memcpy(request_id, &request_id_output);
+    memcpy(trade, &trade_output, sizeof(testA));
+    memcpy(user, &user_output, sizeof(testA));
+    memcpy(request_id, &request_id_output, sizeof(testA));
 
     // return value
     return rpc_result_output;
@@ -575,12 +578,12 @@ TEST_F(RpcTestFixture, MtSrvTradeTransaction_c7kx) {
 
   // check the result
   EXPECT_EQ(rpc_result, rpc_result_output);
-  EXPECT_TRUE(memcmp(&trade_output, &trade_input), 0);
-  EXPECT_TRUE(memcmp(&user_output, &user_input), 0);
-  EXPECT_TRUE(memcmp(&request_id_output, &request_id_input), 0);
+  EXPECT_EQ(memcmp(&trade_output, &trade_input, sizeof(testA)), 0);
+  EXPECT_EQ(memcmp(&user_output, &user_input, sizeof(testA)), 0);
+  EXPECT_EQ(memcmp(&request_id_output, &request_id_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradeCommission_MeFx) {
+TEST_F(RpcTestFixture, MtSrvTradeCommission_vgqL) {
   // input parameters
   testA trade_input = random_value<testA>();
   testA Sec_input = random_value<testA>();
@@ -590,15 +593,15 @@ TEST_F(RpcTestFixture, MtSrvTradeCommission_MeFx) {
   testA trade_output = random_value<testA>();
 
   // diy callback
-  server->MtSrvTradeCommission_MeFx_callback_ =
+  server->MtSrvTradeCommission_vgqL_callback_ =
       [&](testA* trade, const testA* Sec, const testA* Grp) {
         // check input
-        EXPECT_TRUE(memcmp(&trade_input, trade), 0);
-        EXPECT_TRUE(memcmp(&Sec_input, Sec), 0);
-        EXPECT_TRUE(memcmp(&Grp_input, Grp), 0);
+        EXPECT_EQ(memcmp(&trade_input, trade, sizeof(testA)), 0);
+        EXPECT_EQ(memcmp(&Sec_input, Sec, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&Grp_input, Grp, sizeof(const testA)), 0);
 
         // assign output
-        memcpy(trade, &trade_output);
+        memcpy(trade, &trade_output, sizeof(testA));
 
         // return value
       };
@@ -607,10 +610,10 @@ TEST_F(RpcTestFixture, MtSrvTradeCommission_MeFx) {
   client->MtSrvTradeCommission_Rpc(&trade_input, &Sec_input, &Grp_input);
 
   // check the result
-  EXPECT_TRUE(memcmp(&trade_output, &trade_input), 0);
+  EXPECT_EQ(memcmp(&trade_output, &trade_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvTradeCommissionAgent_YGkX) {
+TEST_F(RpcTestFixture, MtSrvTradeCommissionAgent_55QD) {
   // input parameters
   testA trade_input = random_value<testA>();
   testA sec_input = random_value<testA>();
@@ -623,15 +626,15 @@ TEST_F(RpcTestFixture, MtSrvTradeCommissionAgent_YGkX) {
   int rpc_result_output = 1;
 
   // diy callback
-  server->MtSrvTradeCommissionAgent_YGkX_callback_ =
+  server->MtSrvTradeCommissionAgent_55QD_callback_ =
       [&](testA* trade, const testA* sec, const testA* info) {
         // check input
-        EXPECT_TRUE(memcmp(&trade_input, trade), 0);
-        EXPECT_TRUE(memcmp(&sec_input, sec), 0);
-        EXPECT_TRUE(memcmp(&info_input, info), 0);
+        EXPECT_EQ(memcmp(&trade_input, trade, sizeof(testA)), 0);
+        EXPECT_EQ(memcmp(&sec_input, sec, sizeof(const testA)), 0);
+        EXPECT_EQ(memcmp(&info_input, info, sizeof(const testA)), 0);
 
         // assign output
-        memcpy(trade, &trade_output);
+        memcpy(trade, &trade_output, sizeof(testA));
 
         // return value
         return rpc_result_output;
@@ -643,10 +646,10 @@ TEST_F(RpcTestFixture, MtSrvTradeCommissionAgent_YGkX) {
 
   // check the result
   EXPECT_EQ(rpc_result, rpc_result_output);
-  EXPECT_TRUE(memcmp(&trade_output, &trade_input), 0);
+  EXPECT_EQ(memcmp(&trade_output, &trade_input, sizeof(testA)), 0);
 }
 
-TEST_F(RpcTestFixture, MtSrvHistoryTickApply_IbhS) {
+TEST_F(RpcTestFixture, MtSrvHistoryTickApply_49xM) {
   // input parameters
   testA symbol_input = random_value<testA>();
   testA inf_input = random_value<testA>();
@@ -655,14 +658,14 @@ TEST_F(RpcTestFixture, MtSrvHistoryTickApply_IbhS) {
   testA inf_output = random_value<testA>();
 
   // diy callback
-  server->MtSrvHistoryTickApply_IbhS_callback_ = [&](const testA* symbol,
+  server->MtSrvHistoryTickApply_49xM_callback_ = [&](const testA* symbol,
                                                      testA* inf) {
     // check input
-    EXPECT_TRUE(memcmp(&symbol_input, symbol), 0);
-    EXPECT_TRUE(memcmp(&inf_input, inf), 0);
+    EXPECT_EQ(memcmp(&symbol_input, symbol, sizeof(const testA)), 0);
+    EXPECT_EQ(memcmp(&inf_input, inf, sizeof(testA)), 0);
 
     // assign output
-    memcpy(inf, &inf_output);
+    memcpy(inf, &inf_output, sizeof(testA));
 
     // return value
   };
@@ -671,7 +674,7 @@ TEST_F(RpcTestFixture, MtSrvHistoryTickApply_IbhS) {
   client->MtSrvHistoryTickApply_Rpc(&symbol_input, &inf_input);
 
   // check the result
-  EXPECT_TRUE(memcmp(&inf_output, &inf_input), 0);
+  EXPECT_EQ(memcmp(&inf_output, &inf_input, sizeof(testA)), 0);
 }
 
 int main(int argc, char** argv) {

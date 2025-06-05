@@ -1,12 +1,14 @@
 
 #pragma once
+#include <functional>
+
 #include "client.h"
 #include "define.h"
-#include "functional"
+#include "interface.h"
 #include "jsonrpc.h"
 #include "server.h"
 
-class executor_rpc_client : public json_rpc_client {
+class executor_rpc_client : public json_rpc_client, public hooks_rpc_interface {
  public:
   executor_rpc_client(std::string rpc_server_ip, unsigned short rpc_server_port)
       : json_rpc_client(rpc_server_ip, rpc_server_port) {}
@@ -55,13 +57,16 @@ class executor_rpc_client : public json_rpc_client {
 inline void executor_rpc_client::MtSrvAbout_Rpc(testA* info) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvAbout_G7DX", std::make_tuple(::rpc_format(info)),
+        "MtSrvAbout_xag0", std::make_tuple(::rpc_format(info)),
         net::use_future);
-    future.get().result;
 
-    auto info_vector_OVQQ = ::rpc_parse<testA>(rpc_result.get<0>());
-    testA* info_ptr_reqA = info_vector_OVQQ.data();
-    if (info) memcpy(info, info_ptr_reqA, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<std::string>>(future_result);
+
+    auto info_vector_ZCjH = ::rpc_parse<testA>(std::get<0>(rpc_result));
+    testA* info_ptr_MF9p = info_vector_ZCjH.data();
+    if (info) memcpy(info, info_ptr_MF9p, sizeof(testA));
 
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
@@ -71,10 +76,12 @@ inline void executor_rpc_client::MtSrvAbout_Rpc(testA* info) {
 inline int executor_rpc_client::MtSrvStartup_Rpc() {
   try {
     auto future =
-        packio_client_->async_call("MtSrvStartup_E0gE", net::use_future);
-    auto rpc_result = future.get().result;
+        packio_client_->async_call("MtSrvStartup_wqvx", net::use_future);
 
-    return rpc_result.get<0>();
+    auto future_result = future.get().result;
+    auto rpc_result = boost::json::value_to<std::tuple<int>>(future_result);
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -84,8 +91,8 @@ inline int executor_rpc_client::MtSrvStartup_Rpc() {
 inline void executor_rpc_client::MtSrvCleanup_Rpc() {
   try {
     auto future =
-        packio_client_->async_call("MtSrvCleanup_PKHr", net::use_future);
-    future.get().result;
+        packio_client_->async_call("MtSrvCleanup_cnya", net::use_future);
+    future.get();
 
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
@@ -94,12 +101,14 @@ inline void executor_rpc_client::MtSrvCleanup_Rpc() {
 
 inline int executor_rpc_client::MtSrvPluginCfgAdd_Rpc(const testA* cfg) {
   try {
-    auto future = packio_client_->async_call("MtSrvPluginCfgAdd_CbA0",
+    auto future = packio_client_->async_call("MtSrvPluginCfgAdd_lLd3",
                                              std::make_tuple(::rpc_format(cfg)),
                                              net::use_future);
-    auto rpc_result = future.get().result;
 
-    return rpc_result.get<0>();
+    auto future_result = future.get().result;
+    auto rpc_result = boost::json::value_to<std::tuple<int>>(future_result);
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -110,11 +119,13 @@ inline int executor_rpc_client::MtSrvPluginCfgSet_Rpc(const testA* values,
                                                       const int total) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvPluginCfgSet_tifQ", std::make_tuple(::rpc_format(values), total),
+        "MtSrvPluginCfgSet_TmFN", std::make_tuple(::rpc_format(values), total),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    return rpc_result.get<0>();
+    auto future_result = future.get().result;
+    auto rpc_result = boost::json::value_to<std::tuple<int>>(future_result);
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -124,12 +135,14 @@ inline int executor_rpc_client::MtSrvPluginCfgSet_Rpc(const testA* values,
 inline int executor_rpc_client::MtSrvPluginCfgDelete_Rpc(LPCSTR name) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvPluginCfgDelete_vkKH",
+        "MtSrvPluginCfgDelete_nUU9",
         std::make_tuple(name ? std::string(name) : std::string()),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    return rpc_result.get<0>();
+    auto future_result = future.get().result;
+    auto rpc_result = boost::json::value_to<std::tuple<int>>(future_result);
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -139,17 +152,20 @@ inline int executor_rpc_client::MtSrvPluginCfgDelete_Rpc(LPCSTR name) {
 inline int executor_rpc_client::MtSrvPluginCfgGet_Rpc(LPCSTR name, testA* cfg) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvPluginCfgGet_WMtN",
+        "MtSrvPluginCfgGet_Pc04",
         std::make_tuple(name ? std::string(name) : std::string(),
                         ::rpc_format(cfg)),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    auto cfg_vector_3jXw = ::rpc_parse<testA>(rpc_result.get<1>());
-    testA* cfg_ptr_DxgR = cfg_vector_3jXw.data();
-    if (cfg) memcpy(cfg, cfg_ptr_DxgR, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<int, std::string>>(future_result);
 
-    return rpc_result.get<0>();
+    auto cfg_vector_lUfh = ::rpc_parse<testA>(std::get<1>(rpc_result));
+    testA* cfg_ptr_iZlG = cfg_vector_lUfh.data();
+    if (cfg) memcpy(cfg, cfg_ptr_iZlG, sizeof(testA));
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -160,15 +176,18 @@ inline int executor_rpc_client::MtSrvPluginCfgNext_Rpc(const int index,
                                                        testA* cfg) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvPluginCfgNext_9LGj", std::make_tuple(index, ::rpc_format(cfg)),
+        "MtSrvPluginCfgNext_sQ05", std::make_tuple(index, ::rpc_format(cfg)),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    auto cfg_vector_Sc1A = ::rpc_parse<testA>(rpc_result.get<1>());
-    testA* cfg_ptr_dTeS = cfg_vector_Sc1A.data();
-    if (cfg) memcpy(cfg, cfg_ptr_dTeS, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<int, std::string>>(future_result);
 
-    return rpc_result.get<0>();
+    auto cfg_vector_ZyHq = ::rpc_parse<testA>(std::get<1>(rpc_result));
+    testA* cfg_ptr_Vlo5 = cfg_vector_ZyHq.data();
+    if (cfg) memcpy(cfg, cfg_ptr_Vlo5, sizeof(testA));
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -178,10 +197,12 @@ inline int executor_rpc_client::MtSrvPluginCfgNext_Rpc(const int index,
 inline int executor_rpc_client::MtSrvPluginCfgTotal_Rpc() {
   try {
     auto future =
-        packio_client_->async_call("MtSrvPluginCfgTotal_cffM", net::use_future);
-    auto rpc_result = future.get().result;
+        packio_client_->async_call("MtSrvPluginCfgTotal_3ToP", net::use_future);
 
-    return rpc_result.get<0>();
+    auto future_result = future.get().result;
+    auto rpc_result = boost::json::value_to<std::tuple<int>>(future_result);
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -192,13 +213,16 @@ inline void executor_rpc_client::MtSrvTradeRequestApply_Rpc(testA* request,
                                                             const int isdemo) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradeRequestApply_yL5z",
+        "MtSrvTradeRequestApply_uuVJ",
         std::make_tuple(::rpc_format(request), isdemo), net::use_future);
-    future.get().result;
 
-    auto request_vector_Lo7X = ::rpc_parse<testA>(rpc_result.get<0>());
-    testA* request_ptr_qu1X = request_vector_Lo7X.data();
-    if (request) memcpy(request, request_ptr_qu1X, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<std::string>>(future_result);
+
+    auto request_vector_TG8m = ::rpc_parse<testA>(std::get<0>(rpc_result));
+    testA* request_ptr_UMkN = request_vector_TG8m.data();
+    if (request) memcpy(request, request_ptr_UMkN, sizeof(testA));
 
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
@@ -210,13 +234,15 @@ inline int executor_rpc_client::MtSrvTradeStopsFilter_Rpc(const testA* group,
                                                           const testA* trade) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradeStopsFilter_l8h6",
+        "MtSrvTradeStopsFilter_Bi0U",
         std::make_tuple(::rpc_format(group), ::rpc_format(symbol),
                         ::rpc_format(trade)),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    return rpc_result.get<0>();
+    auto future_result = future.get().result;
+    auto rpc_result = boost::json::value_to<std::tuple<int>>(future_result);
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -230,17 +256,20 @@ inline int executor_rpc_client::MtSrvTradeStopsApply_Rpc(const testA* user,
                                                          const int isTP) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradeStopsApply_oFkn",
+        "MtSrvTradeStopsApply_2crI",
         std::make_tuple(::rpc_format(user), ::rpc_format(group),
                         ::rpc_format(symbol), ::rpc_format(trade), isTP),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    auto trade_vector_tW24 = ::rpc_parse<testA>(rpc_result.get<1>());
-    testA* trade_ptr_tPdx = trade_vector_tW24.data();
-    if (trade) memcpy(trade, trade_ptr_tPdx, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<int, std::string>>(future_result);
 
-    return rpc_result.get<0>();
+    auto trade_vector_fw86 = ::rpc_parse<testA>(std::get<1>(rpc_result));
+    testA* trade_ptr_20BI = trade_vector_fw86.data();
+    if (trade) memcpy(trade, trade_ptr_20BI, sizeof(testA));
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -251,13 +280,15 @@ inline int executor_rpc_client::MtSrvTradePendingsFilter_Rpc(
     const testA* group, const testA* symbol, const testA* trade) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradePendingsFilter_0RQG",
+        "MtSrvTradePendingsFilter_91ay",
         std::make_tuple(::rpc_format(group), ::rpc_format(symbol),
                         ::rpc_format(trade)),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    return rpc_result.get<0>();
+    auto future_result = future.get().result;
+    auto rpc_result = boost::json::value_to<std::tuple<int>>(future_result);
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -269,18 +300,21 @@ inline int executor_rpc_client::MtSrvTradePendingsApply_Rpc(
     const testA* pending, testA* trade) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradePendingsApply_p9q6",
+        "MtSrvTradePendingsApply_4QyA",
         std::make_tuple(::rpc_format(user), ::rpc_format(group),
                         ::rpc_format(symbol), ::rpc_format(pending),
                         ::rpc_format(trade)),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    auto trade_vector_v9pm = ::rpc_parse<testA>(rpc_result.get<1>());
-    testA* trade_ptr_3Hc2 = trade_vector_v9pm.data();
-    if (trade) memcpy(trade, trade_ptr_3Hc2, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<int, std::string>>(future_result);
 
-    return rpc_result.get<0>();
+    auto trade_vector_yUuV = ::rpc_parse<testA>(std::get<1>(rpc_result));
+    testA* trade_ptr_nQob = trade_vector_yUuV.data();
+    if (trade) memcpy(trade, trade_ptr_nQob, sizeof(testA));
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -292,13 +326,15 @@ inline int executor_rpc_client::MtSrvTradeStopoutsFilter_Rpc(
     const double equity, const double margin) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradeStopoutsFilter_zpw6",
+        "MtSrvTradeStopoutsFilter_FmdX",
         std::make_tuple(::rpc_format(group), ::rpc_format(symbol), login,
                         equity, margin),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    return rpc_result.get<0>();
+    auto future_result = future.get().result;
+    auto rpc_result = boost::json::value_to<std::tuple<int>>(future_result);
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -311,17 +347,20 @@ inline int executor_rpc_client::MtSrvTradeStopoutsApply_Rpc(const testA* user,
                                                             testA* stopout) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradeStopoutsApply_7mFc",
+        "MtSrvTradeStopoutsApply_n4Jz",
         std::make_tuple(::rpc_format(user), ::rpc_format(group),
                         ::rpc_format(symbol), ::rpc_format(stopout)),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    auto stopout_vector_dwlL = ::rpc_parse<testA>(rpc_result.get<1>());
-    testA* stopout_ptr_5cpw = stopout_vector_dwlL.data();
-    if (stopout) memcpy(stopout, stopout_ptr_5cpw, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<int, std::string>>(future_result);
 
-    return rpc_result.get<0>();
+    auto stopout_vector_UmfF = ::rpc_parse<testA>(std::get<1>(rpc_result));
+    testA* stopout_ptr_3V16 = stopout_vector_UmfF.data();
+    if (stopout) memcpy(stopout, stopout_ptr_3V16, sizeof(testA));
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -335,15 +374,18 @@ inline void executor_rpc_client::MtSrvTradesAddRequest_Rpc(testA* trade,
                                                            const int mode) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradesAddRequest_RkK3",
+        "MtSrvTradesAddRequest_MuDN",
         std::make_tuple(::rpc_format(trade), ::rpc_format(request),
                         ::rpc_format(user), ::rpc_format(symbol), mode),
         net::use_future);
-    future.get().result;
 
-    auto trade_vector_cqA1 = ::rpc_parse<testA>(rpc_result.get<0>());
-    testA* trade_ptr_ZU2b = trade_vector_cqA1.data();
-    if (trade) memcpy(trade, trade_ptr_ZU2b, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<std::string>>(future_result);
+
+    auto trade_vector_ZHdX = ::rpc_parse<testA>(std::get<0>(rpc_result));
+    testA* trade_ptr_dXlU = trade_vector_ZHdX.data();
+    if (trade) memcpy(trade, trade_ptr_dXlU, sizeof(testA));
 
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
@@ -355,23 +397,26 @@ inline int executor_rpc_client::MtSrvTradeTransaction_Rpc(testA* trade,
                                                           testA* request_id) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradeTransaction_c7kx",
+        "MtSrvTradeTransaction_K8PA",
         std::make_tuple(::rpc_format(trade), ::rpc_format(user),
                         ::rpc_format(request_id)),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    auto trade_vector_Kq2m = ::rpc_parse<testA>(rpc_result.get<1>());
-    testA* trade_ptr_QSHl = trade_vector_Kq2m.data();
-    if (trade) memcpy(trade, trade_ptr_QSHl, sizeof(testA));
-    auto user_vector_aJqW = ::rpc_parse<testA>(rpc_result.get<2>());
-    testA* user_ptr_zL87 = user_vector_aJqW.data();
-    if (user) memcpy(user, user_ptr_zL87, sizeof(testA));
-    auto request_id_vector_RCLH = ::rpc_parse<testA>(rpc_result.get<3>());
-    testA* request_id_ptr_EfnR = request_id_vector_RCLH.data();
-    if (request_id) memcpy(request_id, request_id_ptr_EfnR, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result = boost::json::value_to<
+        std::tuple<int, std::string, std::string, std::string>>(future_result);
 
-    return rpc_result.get<0>();
+    auto trade_vector_5rcd = ::rpc_parse<testA>(std::get<1>(rpc_result));
+    testA* trade_ptr_JPoC = trade_vector_5rcd.data();
+    if (trade) memcpy(trade, trade_ptr_JPoC, sizeof(testA));
+    auto user_vector_z4FI = ::rpc_parse<testA>(std::get<2>(rpc_result));
+    testA* user_ptr_r27a = user_vector_z4FI.data();
+    if (user) memcpy(user, user_ptr_r27a, sizeof(testA));
+    auto request_id_vector_GFYV = ::rpc_parse<testA>(std::get<3>(rpc_result));
+    testA* request_id_ptr_GwdV = request_id_vector_GFYV.data();
+    if (request_id) memcpy(request_id, request_id_ptr_GwdV, sizeof(testA));
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -383,15 +428,18 @@ inline void executor_rpc_client::MtSrvTradeCommission_Rpc(testA* trade,
                                                           const testA* Grp) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradeCommission_MeFx",
+        "MtSrvTradeCommission_vgqL",
         std::make_tuple(::rpc_format(trade), ::rpc_format(Sec),
                         ::rpc_format(Grp)),
         net::use_future);
-    future.get().result;
 
-    auto trade_vector_fpfW = ::rpc_parse<testA>(rpc_result.get<0>());
-    testA* trade_ptr_9Qxc = trade_vector_fpfW.data();
-    if (trade) memcpy(trade, trade_ptr_9Qxc, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<std::string>>(future_result);
+
+    auto trade_vector_tJ33 = ::rpc_parse<testA>(std::get<0>(rpc_result));
+    testA* trade_ptr_7nJs = trade_vector_tJ33.data();
+    if (trade) memcpy(trade, trade_ptr_7nJs, sizeof(testA));
 
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
@@ -402,17 +450,20 @@ inline int executor_rpc_client::MtSrvTradeCommissionAgent_Rpc(
     testA* trade, const testA* sec, const testA* info) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvTradeCommissionAgent_YGkX",
+        "MtSrvTradeCommissionAgent_55QD",
         std::make_tuple(::rpc_format(trade), ::rpc_format(sec),
                         ::rpc_format(info)),
         net::use_future);
-    auto rpc_result = future.get().result;
 
-    auto trade_vector_qENz = ::rpc_parse<testA>(rpc_result.get<1>());
-    testA* trade_ptr_zX8a = trade_vector_qENz.data();
-    if (trade) memcpy(trade, trade_ptr_zX8a, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<int, std::string>>(future_result);
 
-    return rpc_result.get<0>();
+    auto trade_vector_6njM = ::rpc_parse<testA>(std::get<1>(rpc_result));
+    testA* trade_ptr_uHzK = trade_vector_6njM.data();
+    if (trade) memcpy(trade, trade_ptr_uHzK, sizeof(testA));
+
+    return std::get<0>(rpc_result);
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
     return -1;
@@ -423,14 +474,17 @@ inline void executor_rpc_client::MtSrvHistoryTickApply_Rpc(const testA* symbol,
                                                            testA* inf) {
   try {
     auto future = packio_client_->async_call(
-        "MtSrvHistoryTickApply_IbhS",
+        "MtSrvHistoryTickApply_49xM",
         std::make_tuple(::rpc_format(symbol), ::rpc_format(inf)),
         net::use_future);
-    future.get().result;
 
-    auto inf_vector_UR8F = ::rpc_parse<testA>(rpc_result.get<0>());
-    testA* inf_ptr_BOjZ = inf_vector_UR8F.data();
-    if (inf) memcpy(inf, inf_ptr_BOjZ, sizeof(testA));
+    auto future_result = future.get().result;
+    auto rpc_result =
+        boost::json::value_to<std::tuple<std::string>>(future_result);
+
+    auto inf_vector_viwJ = ::rpc_parse<testA>(std::get<0>(rpc_result));
+    testA* inf_ptr_O399 = inf_vector_viwJ.data();
+    if (inf) memcpy(inf, inf_ptr_O399, sizeof(testA));
 
   } catch (const std::exception& e) {
     SPDLOG_CRITICAL("RPC call failed: {}", e.what());
