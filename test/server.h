@@ -11,341 +11,341 @@
 class plugin_rpc_server : public json_rpc_server {
  public:
   bool register_method() override final;
-  std::function<void(testA*)> MtSrvAbout_xag0_callback_;
-  std::function<int()> MtSrvStartup_wqvx_callback_;
-  std::function<void()> MtSrvCleanup_cnya_callback_;
-  std::function<int(const testA*)> MtSrvPluginCfgAdd_lLd3_callback_;
-  std::function<int(const testA*, const int)> MtSrvPluginCfgSet_TmFN_callback_;
-  std::function<int(LPCSTR)> MtSrvPluginCfgDelete_nUU9_callback_;
-  std::function<int(LPCSTR, testA*)> MtSrvPluginCfgGet_Pc04_callback_;
-  std::function<int(const int, testA*)> MtSrvPluginCfgNext_sQ05_callback_;
-  std::function<int()> MtSrvPluginCfgTotal_3ToP_callback_;
-  std::function<void(testA*, const int)> MtSrvTradeRequestApply_uuVJ_callback_;
+  std::function<void(testA*)> MtSrvAbout_FaoY_callback_;
+  std::function<int()> MtSrvStartup_Vp7x_callback_;
+  std::function<void()> MtSrvCleanup_6g2V_callback_;
+  std::function<int(const testA*)> MtSrvPluginCfgAdd_uEVd_callback_;
+  std::function<int(const testA*, const int)> MtSrvPluginCfgSet_gGRa_callback_;
+  std::function<int(LPCSTR)> MtSrvPluginCfgDelete_uu7C_callback_;
+  std::function<int(LPCSTR, testA*)> MtSrvPluginCfgGet_3GCs_callback_;
+  std::function<int(const int, testA*)> MtSrvPluginCfgNext_bAVb_callback_;
+  std::function<int()> MtSrvPluginCfgTotal_r2W1_callback_;
+  std::function<void(testA*, const int)> MtSrvTradeRequestApply_XpuX_callback_;
   std::function<int(const testA*, const testA*, const testA*)>
-      MtSrvTradeStopsFilter_Bi0U_callback_;
+      MtSrvTradeStopsFilter_wbtO_callback_;
   std::function<int(const testA*, const testA*, const testA*, testA*,
                     const int)>
-      MtSrvTradeStopsApply_2crI_callback_;
+      MtSrvTradeStopsApply_lDzq_callback_;
   std::function<int(const testA*, const testA*, const testA*)>
-      MtSrvTradePendingsFilter_91ay_callback_;
+      MtSrvTradePendingsFilter_RwNh_callback_;
   std::function<int(const testA*, const testA*, const testA*, const testA*,
                     testA*)>
-      MtSrvTradePendingsApply_4QyA_callback_;
+      MtSrvTradePendingsApply_2XO4_callback_;
   std::function<int(const testA*, const testA*, const int, const double,
                     const double)>
-      MtSrvTradeStopoutsFilter_FmdX_callback_;
+      MtSrvTradeStopoutsFilter_1Rnz_callback_;
   std::function<int(const testA*, const testA*, const testA*, testA*)>
-      MtSrvTradeStopoutsApply_n4Jz_callback_;
+      MtSrvTradeStopoutsApply_hi0p_callback_;
   std::function<void(testA*, const testA*, const testA*, const testA*,
                      const int)>
-      MtSrvTradesAddRequest_MuDN_callback_;
+      MtSrvTradesAddRequest_E0Tz_callback_;
   std::function<int(testA*, testA*, testA*)>
-      MtSrvTradeTransaction_K8PA_callback_;
+      MtSrvTradeTransaction_wpvK_callback_;
   std::function<void(testA*, const testA*, const testA*)>
-      MtSrvTradeCommission_vgqL_callback_;
+      MtSrvTradeCommission_NaKR_callback_;
   std::function<int(testA*, const testA*, const testA*)>
-      MtSrvTradeCommissionAgent_55QD_callback_;
+      MtSrvTradeCommissionAgent_ZItd_callback_;
   std::function<void(const testA*, testA*)>
-      MtSrvHistoryTickApply_49xM_callback_;
+      MtSrvHistoryTickApply_Jy9x_callback_;
 };
 
 inline bool plugin_rpc_server::register_method() {
-  dispatcher()->add("MtSrvAbout_xag0",
+  dispatcher()->add("MtSrvAbout_FaoY",
                     [this](std::string info_format) -> std::tuple<std::string> {
-                      auto info_vector_ZCjH = ::rpc_parse<testA>(info_format);
-                      testA* info_ptr_MF9p = info_vector_ZCjH.data();
+                      auto info_vector_nkGG = ::rpc_parse<testA>(info_format);
+                      testA* info_ptr_PtWY = info_vector_nkGG.data();
 
-                      MtSrvAbout_xag0_callback_(info_ptr_MF9p);
-                      return std::make_tuple(::rpc_format(info_ptr_MF9p));
+                      MtSrvAbout_FaoY_callback_(info_ptr_PtWY);
+                      return std::make_tuple(::rpc_format(info_ptr_PtWY));
                     });
 
-  dispatcher()->add("MtSrvStartup_wqvx", [this]() -> std::tuple<int> {
-    auto result = MtSrvStartup_wqvx_callback_();
+  dispatcher()->add("MtSrvStartup_Vp7x", [this]() -> std::tuple<int> {
+    auto result = MtSrvStartup_Vp7x_callback_();
     return std::make_tuple(result);
   });
 
-  dispatcher()->add("MtSrvCleanup_cnya",
-                    [this]() { MtSrvCleanup_cnya_callback_(); });
+  dispatcher()->add("MtSrvCleanup_6g2V",
+                    [this]() { MtSrvCleanup_6g2V_callback_(); });
 
-  dispatcher()->add("MtSrvPluginCfgAdd_lLd3",
+  dispatcher()->add("MtSrvPluginCfgAdd_uEVd",
                     [this](std::string cfg_format) -> std::tuple<int> {
-                      auto cfg_vector_Hlx4 = ::rpc_parse<testA>(cfg_format);
-                      const testA* cfg_ptr_4bD1 = cfg_vector_Hlx4.data();
+                      auto cfg_vector_9yFQ = ::rpc_parse<testA>(cfg_format);
+                      const testA* cfg_ptr_uFvd = cfg_vector_9yFQ.data();
 
                       auto result =
-                          MtSrvPluginCfgAdd_lLd3_callback_(cfg_ptr_4bD1);
+                          MtSrvPluginCfgAdd_uEVd_callback_(cfg_ptr_uFvd);
                       return std::make_tuple(result);
                     });
 
   dispatcher()->add(
-      "MtSrvPluginCfgSet_TmFN",
+      "MtSrvPluginCfgSet_gGRa",
       [this](std::string values_format, const int total) -> std::tuple<int> {
-        auto values_vector_7JAn = ::rpc_parse<testA>(values_format);
-        const testA* values_ptr_zWKH = values_vector_7JAn.data();
+        auto values_vector_nmHU = ::rpc_parse<testA>(values_format);
+        const testA* values_ptr_ilPE = values_vector_nmHU.data();
 
-        auto result = MtSrvPluginCfgSet_TmFN_callback_(values_ptr_zWKH, total);
+        auto result = MtSrvPluginCfgSet_gGRa_callback_(values_ptr_ilPE, total);
         return std::make_tuple(result);
       });
 
   dispatcher()->add(
-      "MtSrvPluginCfgDelete_nUU9", [this](std::string name) -> std::tuple<int> {
-        auto result = MtSrvPluginCfgDelete_nUU9_callback_(name.c_str());
+      "MtSrvPluginCfgDelete_uu7C", [this](std::string name) -> std::tuple<int> {
+        auto result = MtSrvPluginCfgDelete_uu7C_callback_(name.c_str());
         return std::make_tuple(result);
       });
 
   dispatcher()->add(
-      "MtSrvPluginCfgGet_Pc04",
+      "MtSrvPluginCfgGet_3GCs",
       [this](std::string name,
              std::string cfg_format) -> std::tuple<int, std::string> {
-        auto cfg_vector_lUfh = ::rpc_parse<testA>(cfg_format);
-        testA* cfg_ptr_iZlG = cfg_vector_lUfh.data();
+        auto cfg_vector_Cxuy = ::rpc_parse<testA>(cfg_format);
+        testA* cfg_ptr_w8Iw = cfg_vector_Cxuy.data();
 
         auto result =
-            MtSrvPluginCfgGet_Pc04_callback_(name.c_str(), cfg_ptr_iZlG);
-        return std::make_tuple(result, ::rpc_format(cfg_ptr_iZlG));
+            MtSrvPluginCfgGet_3GCs_callback_(name.c_str(), cfg_ptr_w8Iw);
+        return std::make_tuple(result, ::rpc_format(cfg_ptr_w8Iw));
       });
 
   dispatcher()->add(
-      "MtSrvPluginCfgNext_sQ05",
+      "MtSrvPluginCfgNext_bAVb",
       [this](const int index,
              std::string cfg_format) -> std::tuple<int, std::string> {
-        auto cfg_vector_ZyHq = ::rpc_parse<testA>(cfg_format);
-        testA* cfg_ptr_Vlo5 = cfg_vector_ZyHq.data();
+        auto cfg_vector_BSPh = ::rpc_parse<testA>(cfg_format);
+        testA* cfg_ptr_iHU1 = cfg_vector_BSPh.data();
 
-        auto result = MtSrvPluginCfgNext_sQ05_callback_(index, cfg_ptr_Vlo5);
-        return std::make_tuple(result, ::rpc_format(cfg_ptr_Vlo5));
+        auto result = MtSrvPluginCfgNext_bAVb_callback_(index, cfg_ptr_iHU1);
+        return std::make_tuple(result, ::rpc_format(cfg_ptr_iHU1));
       });
 
-  dispatcher()->add("MtSrvPluginCfgTotal_3ToP", [this]() -> std::tuple<int> {
-    auto result = MtSrvPluginCfgTotal_3ToP_callback_();
+  dispatcher()->add("MtSrvPluginCfgTotal_r2W1", [this]() -> std::tuple<int> {
+    auto result = MtSrvPluginCfgTotal_r2W1_callback_();
     return std::make_tuple(result);
   });
 
   dispatcher()->add(
-      "MtSrvTradeRequestApply_uuVJ",
+      "MtSrvTradeRequestApply_XpuX",
       [this](std::string request_format,
              const int isdemo) -> std::tuple<std::string> {
-        auto request_vector_TG8m = ::rpc_parse<testA>(request_format);
-        testA* request_ptr_UMkN = request_vector_TG8m.data();
+        auto request_vector_nloW = ::rpc_parse<testA>(request_format);
+        testA* request_ptr_scno = request_vector_nloW.data();
 
-        MtSrvTradeRequestApply_uuVJ_callback_(request_ptr_UMkN, isdemo);
-        return std::make_tuple(::rpc_format(request_ptr_UMkN));
+        MtSrvTradeRequestApply_XpuX_callback_(request_ptr_scno, isdemo);
+        return std::make_tuple(::rpc_format(request_ptr_scno));
       });
 
-  dispatcher()->add("MtSrvTradeStopsFilter_Bi0U",
+  dispatcher()->add("MtSrvTradeStopsFilter_wbtO",
                     [this](std::string group_format, std::string symbol_format,
                            std::string trade_format) -> std::tuple<int> {
-                      auto group_vector_D9MC = ::rpc_parse<testA>(group_format);
-                      const testA* group_ptr_c27R = group_vector_D9MC.data();
+                      auto group_vector_zPPx = ::rpc_parse<testA>(group_format);
+                      const testA* group_ptr_2ieA = group_vector_zPPx.data();
 
-                      auto symbol_vector_HDge =
+                      auto symbol_vector_R1Mm =
                           ::rpc_parse<testA>(symbol_format);
-                      const testA* symbol_ptr_Wx2k = symbol_vector_HDge.data();
+                      const testA* symbol_ptr_LsgO = symbol_vector_R1Mm.data();
 
-                      auto trade_vector_6RNv = ::rpc_parse<testA>(trade_format);
-                      const testA* trade_ptr_9nL5 = trade_vector_6RNv.data();
+                      auto trade_vector_DSkW = ::rpc_parse<testA>(trade_format);
+                      const testA* trade_ptr_GlYY = trade_vector_DSkW.data();
 
-                      auto result = MtSrvTradeStopsFilter_Bi0U_callback_(
-                          group_ptr_c27R, symbol_ptr_Wx2k, trade_ptr_9nL5);
+                      auto result = MtSrvTradeStopsFilter_wbtO_callback_(
+                          group_ptr_2ieA, symbol_ptr_LsgO, trade_ptr_GlYY);
                       return std::make_tuple(result);
                     });
 
   dispatcher()->add(
-      "MtSrvTradeStopsApply_2crI",
+      "MtSrvTradeStopsApply_lDzq",
       [this](std::string user_format, std::string group_format,
              std::string symbol_format, std::string trade_format,
              const int isTP) -> std::tuple<int, std::string> {
-        auto user_vector_MJHb = ::rpc_parse<testA>(user_format);
-        const testA* user_ptr_pz3y = user_vector_MJHb.data();
+        auto user_vector_8Exr = ::rpc_parse<testA>(user_format);
+        const testA* user_ptr_Zsz5 = user_vector_8Exr.data();
 
-        auto group_vector_eJCl = ::rpc_parse<testA>(group_format);
-        const testA* group_ptr_HE1V = group_vector_eJCl.data();
+        auto group_vector_aeAF = ::rpc_parse<testA>(group_format);
+        const testA* group_ptr_mGzC = group_vector_aeAF.data();
 
-        auto symbol_vector_aBah = ::rpc_parse<testA>(symbol_format);
-        const testA* symbol_ptr_EcoK = symbol_vector_aBah.data();
+        auto symbol_vector_kFyk = ::rpc_parse<testA>(symbol_format);
+        const testA* symbol_ptr_1yPX = symbol_vector_kFyk.data();
 
-        auto trade_vector_fw86 = ::rpc_parse<testA>(trade_format);
-        testA* trade_ptr_20BI = trade_vector_fw86.data();
+        auto trade_vector_byy2 = ::rpc_parse<testA>(trade_format);
+        testA* trade_ptr_5U6F = trade_vector_byy2.data();
 
-        auto result = MtSrvTradeStopsApply_2crI_callback_(
-            user_ptr_pz3y, group_ptr_HE1V, symbol_ptr_EcoK, trade_ptr_20BI,
+        auto result = MtSrvTradeStopsApply_lDzq_callback_(
+            user_ptr_Zsz5, group_ptr_mGzC, symbol_ptr_1yPX, trade_ptr_5U6F,
             isTP);
-        return std::make_tuple(result, ::rpc_format(trade_ptr_20BI));
+        return std::make_tuple(result, ::rpc_format(trade_ptr_5U6F));
       });
 
-  dispatcher()->add("MtSrvTradePendingsFilter_91ay",
+  dispatcher()->add("MtSrvTradePendingsFilter_RwNh",
                     [this](std::string group_format, std::string symbol_format,
                            std::string trade_format) -> std::tuple<int> {
-                      auto group_vector_CZIZ = ::rpc_parse<testA>(group_format);
-                      const testA* group_ptr_3V1E = group_vector_CZIZ.data();
+                      auto group_vector_eAVw = ::rpc_parse<testA>(group_format);
+                      const testA* group_ptr_Hl8u = group_vector_eAVw.data();
 
-                      auto symbol_vector_iHJC =
+                      auto symbol_vector_jAqT =
                           ::rpc_parse<testA>(symbol_format);
-                      const testA* symbol_ptr_VDPH = symbol_vector_iHJC.data();
+                      const testA* symbol_ptr_0IAh = symbol_vector_jAqT.data();
 
-                      auto trade_vector_G3s4 = ::rpc_parse<testA>(trade_format);
-                      const testA* trade_ptr_juHP = trade_vector_G3s4.data();
+                      auto trade_vector_pgVQ = ::rpc_parse<testA>(trade_format);
+                      const testA* trade_ptr_hjlx = trade_vector_pgVQ.data();
 
-                      auto result = MtSrvTradePendingsFilter_91ay_callback_(
-                          group_ptr_3V1E, symbol_ptr_VDPH, trade_ptr_juHP);
+                      auto result = MtSrvTradePendingsFilter_RwNh_callback_(
+                          group_ptr_Hl8u, symbol_ptr_0IAh, trade_ptr_hjlx);
                       return std::make_tuple(result);
                     });
 
   dispatcher()->add(
-      "MtSrvTradePendingsApply_4QyA",
+      "MtSrvTradePendingsApply_2XO4",
       [this](std::string user_format, std::string group_format,
              std::string symbol_format, std::string pending_format,
              std::string trade_format) -> std::tuple<int, std::string> {
-        auto user_vector_CuHp = ::rpc_parse<testA>(user_format);
-        const testA* user_ptr_hpNW = user_vector_CuHp.data();
+        auto user_vector_jLAN = ::rpc_parse<testA>(user_format);
+        const testA* user_ptr_lUGL = user_vector_jLAN.data();
 
-        auto group_vector_hPDE = ::rpc_parse<testA>(group_format);
-        const testA* group_ptr_VfJe = group_vector_hPDE.data();
+        auto group_vector_agYV = ::rpc_parse<testA>(group_format);
+        const testA* group_ptr_vn8n = group_vector_agYV.data();
 
-        auto symbol_vector_Ppt9 = ::rpc_parse<testA>(symbol_format);
-        const testA* symbol_ptr_3ctX = symbol_vector_Ppt9.data();
+        auto symbol_vector_5Txp = ::rpc_parse<testA>(symbol_format);
+        const testA* symbol_ptr_x0ML = symbol_vector_5Txp.data();
 
-        auto pending_vector_Z31L = ::rpc_parse<testA>(pending_format);
-        const testA* pending_ptr_y9mT = pending_vector_Z31L.data();
+        auto pending_vector_TlP1 = ::rpc_parse<testA>(pending_format);
+        const testA* pending_ptr_b9pK = pending_vector_TlP1.data();
 
-        auto trade_vector_yUuV = ::rpc_parse<testA>(trade_format);
-        testA* trade_ptr_nQob = trade_vector_yUuV.data();
+        auto trade_vector_2RlP = ::rpc_parse<testA>(trade_format);
+        testA* trade_ptr_L8dP = trade_vector_2RlP.data();
 
-        auto result = MtSrvTradePendingsApply_4QyA_callback_(
-            user_ptr_hpNW, group_ptr_VfJe, symbol_ptr_3ctX, pending_ptr_y9mT,
-            trade_ptr_nQob);
-        return std::make_tuple(result, ::rpc_format(trade_ptr_nQob));
+        auto result = MtSrvTradePendingsApply_2XO4_callback_(
+            user_ptr_lUGL, group_ptr_vn8n, symbol_ptr_x0ML, pending_ptr_b9pK,
+            trade_ptr_L8dP);
+        return std::make_tuple(result, ::rpc_format(trade_ptr_L8dP));
       });
 
   dispatcher()->add(
-      "MtSrvTradeStopoutsFilter_FmdX",
+      "MtSrvTradeStopoutsFilter_1Rnz",
       [this](std::string group_format, std::string symbol_format,
              const int login, const double equity,
              const double margin) -> std::tuple<int> {
-        auto group_vector_LG7W = ::rpc_parse<testA>(group_format);
-        const testA* group_ptr_KN1u = group_vector_LG7W.data();
+        auto group_vector_9pgf = ::rpc_parse<testA>(group_format);
+        const testA* group_ptr_RONf = group_vector_9pgf.data();
 
-        auto symbol_vector_p04y = ::rpc_parse<testA>(symbol_format);
-        const testA* symbol_ptr_MQUn = symbol_vector_p04y.data();
+        auto symbol_vector_qInC = ::rpc_parse<testA>(symbol_format);
+        const testA* symbol_ptr_MpAj = symbol_vector_qInC.data();
 
-        auto result = MtSrvTradeStopoutsFilter_FmdX_callback_(
-            group_ptr_KN1u, symbol_ptr_MQUn, login, equity, margin);
+        auto result = MtSrvTradeStopoutsFilter_1Rnz_callback_(
+            group_ptr_RONf, symbol_ptr_MpAj, login, equity, margin);
         return std::make_tuple(result);
       });
 
   dispatcher()->add(
-      "MtSrvTradeStopoutsApply_n4Jz",
+      "MtSrvTradeStopoutsApply_hi0p",
       [this](std::string user_format, std::string group_format,
              std::string symbol_format,
              std::string stopout_format) -> std::tuple<int, std::string> {
-        auto user_vector_iq09 = ::rpc_parse<testA>(user_format);
-        const testA* user_ptr_3mzk = user_vector_iq09.data();
+        auto user_vector_fYKp = ::rpc_parse<testA>(user_format);
+        const testA* user_ptr_mulL = user_vector_fYKp.data();
 
-        auto group_vector_aSty = ::rpc_parse<testA>(group_format);
-        const testA* group_ptr_jpi9 = group_vector_aSty.data();
+        auto group_vector_AfW0 = ::rpc_parse<testA>(group_format);
+        const testA* group_ptr_7A2v = group_vector_AfW0.data();
 
-        auto symbol_vector_BRfk = ::rpc_parse<testA>(symbol_format);
-        const testA* symbol_ptr_1zy1 = symbol_vector_BRfk.data();
+        auto symbol_vector_XseC = ::rpc_parse<testA>(symbol_format);
+        const testA* symbol_ptr_SQVX = symbol_vector_XseC.data();
 
-        auto stopout_vector_UmfF = ::rpc_parse<testA>(stopout_format);
-        testA* stopout_ptr_3V16 = stopout_vector_UmfF.data();
+        auto stopout_vector_yXPf = ::rpc_parse<testA>(stopout_format);
+        testA* stopout_ptr_YxdM = stopout_vector_yXPf.data();
 
-        auto result = MtSrvTradeStopoutsApply_n4Jz_callback_(
-            user_ptr_3mzk, group_ptr_jpi9, symbol_ptr_1zy1, stopout_ptr_3V16);
-        return std::make_tuple(result, ::rpc_format(stopout_ptr_3V16));
+        auto result = MtSrvTradeStopoutsApply_hi0p_callback_(
+            user_ptr_mulL, group_ptr_7A2v, symbol_ptr_SQVX, stopout_ptr_YxdM);
+        return std::make_tuple(result, ::rpc_format(stopout_ptr_YxdM));
       });
 
   dispatcher()->add(
-      "MtSrvTradesAddRequest_MuDN",
+      "MtSrvTradesAddRequest_E0Tz",
       [this](std::string trade_format, std::string request_format,
              std::string user_format, std::string symbol_format,
              const int mode) -> std::tuple<std::string> {
-        auto trade_vector_ZHdX = ::rpc_parse<testA>(trade_format);
-        testA* trade_ptr_dXlU = trade_vector_ZHdX.data();
+        auto trade_vector_X2WE = ::rpc_parse<testA>(trade_format);
+        testA* trade_ptr_paw5 = trade_vector_X2WE.data();
 
-        auto request_vector_YdRv = ::rpc_parse<testA>(request_format);
-        const testA* request_ptr_jTJW = request_vector_YdRv.data();
+        auto request_vector_Bf52 = ::rpc_parse<testA>(request_format);
+        const testA* request_ptr_5js9 = request_vector_Bf52.data();
 
-        auto user_vector_yCxq = ::rpc_parse<testA>(user_format);
-        const testA* user_ptr_GFe9 = user_vector_yCxq.data();
+        auto user_vector_uOtx = ::rpc_parse<testA>(user_format);
+        const testA* user_ptr_5OyZ = user_vector_uOtx.data();
 
-        auto symbol_vector_L8ds = ::rpc_parse<testA>(symbol_format);
-        const testA* symbol_ptr_qZOz = symbol_vector_L8ds.data();
+        auto symbol_vector_f6F8 = ::rpc_parse<testA>(symbol_format);
+        const testA* symbol_ptr_78hz = symbol_vector_f6F8.data();
 
-        MtSrvTradesAddRequest_MuDN_callback_(trade_ptr_dXlU, request_ptr_jTJW,
-                                             user_ptr_GFe9, symbol_ptr_qZOz,
+        MtSrvTradesAddRequest_E0Tz_callback_(trade_ptr_paw5, request_ptr_5js9,
+                                             user_ptr_5OyZ, symbol_ptr_78hz,
                                              mode);
-        return std::make_tuple(::rpc_format(trade_ptr_dXlU));
+        return std::make_tuple(::rpc_format(trade_ptr_paw5));
       });
 
   dispatcher()->add(
-      "MtSrvTradeTransaction_K8PA",
+      "MtSrvTradeTransaction_wpvK",
       [this](std::string trade_format, std::string user_format,
              std::string request_id_format)
           -> std::tuple<int, std::string, std::string, std::string> {
-        auto trade_vector_5rcd = ::rpc_parse<testA>(trade_format);
-        testA* trade_ptr_JPoC = trade_vector_5rcd.data();
+        auto trade_vector_w6vD = ::rpc_parse<testA>(trade_format);
+        testA* trade_ptr_Dljk = trade_vector_w6vD.data();
 
-        auto user_vector_z4FI = ::rpc_parse<testA>(user_format);
-        testA* user_ptr_r27a = user_vector_z4FI.data();
+        auto user_vector_3JCA = ::rpc_parse<testA>(user_format);
+        testA* user_ptr_b8vi = user_vector_3JCA.data();
 
-        auto request_id_vector_GFYV = ::rpc_parse<testA>(request_id_format);
-        testA* request_id_ptr_GwdV = request_id_vector_GFYV.data();
+        auto request_id_vector_SHvF = ::rpc_parse<testA>(request_id_format);
+        testA* request_id_ptr_xxrJ = request_id_vector_SHvF.data();
 
-        auto result = MtSrvTradeTransaction_K8PA_callback_(
-            trade_ptr_JPoC, user_ptr_r27a, request_id_ptr_GwdV);
-        return std::make_tuple(result, ::rpc_format(trade_ptr_JPoC),
-                               ::rpc_format(user_ptr_r27a),
-                               ::rpc_format(request_id_ptr_GwdV));
+        auto result = MtSrvTradeTransaction_wpvK_callback_(
+            trade_ptr_Dljk, user_ptr_b8vi, request_id_ptr_xxrJ);
+        return std::make_tuple(result, ::rpc_format(trade_ptr_Dljk),
+                               ::rpc_format(user_ptr_b8vi),
+                               ::rpc_format(request_id_ptr_xxrJ));
       });
 
-  dispatcher()->add("MtSrvTradeCommission_vgqL",
+  dispatcher()->add("MtSrvTradeCommission_NaKR",
                     [this](std::string trade_format, std::string Sec_format,
                            std::string Grp_format) -> std::tuple<std::string> {
-                      auto trade_vector_tJ33 = ::rpc_parse<testA>(trade_format);
-                      testA* trade_ptr_7nJs = trade_vector_tJ33.data();
+                      auto trade_vector_78xN = ::rpc_parse<testA>(trade_format);
+                      testA* trade_ptr_0gC3 = trade_vector_78xN.data();
 
-                      auto Sec_vector_jdrH = ::rpc_parse<testA>(Sec_format);
-                      const testA* Sec_ptr_WwaM = Sec_vector_jdrH.data();
+                      auto Sec_vector_RjXx = ::rpc_parse<testA>(Sec_format);
+                      const testA* Sec_ptr_Nhkm = Sec_vector_RjXx.data();
 
-                      auto Grp_vector_YIG3 = ::rpc_parse<testA>(Grp_format);
-                      const testA* Grp_ptr_g5Kb = Grp_vector_YIG3.data();
+                      auto Grp_vector_nQu3 = ::rpc_parse<testA>(Grp_format);
+                      const testA* Grp_ptr_PHF0 = Grp_vector_nQu3.data();
 
-                      MtSrvTradeCommission_vgqL_callback_(
-                          trade_ptr_7nJs, Sec_ptr_WwaM, Grp_ptr_g5Kb);
-                      return std::make_tuple(::rpc_format(trade_ptr_7nJs));
+                      MtSrvTradeCommission_NaKR_callback_(
+                          trade_ptr_0gC3, Sec_ptr_Nhkm, Grp_ptr_PHF0);
+                      return std::make_tuple(::rpc_format(trade_ptr_0gC3));
                     });
 
   dispatcher()->add(
-      "MtSrvTradeCommissionAgent_55QD",
+      "MtSrvTradeCommissionAgent_ZItd",
       [this](std::string trade_format, std::string sec_format,
              std::string info_format) -> std::tuple<int, std::string> {
-        auto trade_vector_6njM = ::rpc_parse<testA>(trade_format);
-        testA* trade_ptr_uHzK = trade_vector_6njM.data();
+        auto trade_vector_fQoL = ::rpc_parse<testA>(trade_format);
+        testA* trade_ptr_yqMo = trade_vector_fQoL.data();
 
-        auto sec_vector_yMs7 = ::rpc_parse<testA>(sec_format);
-        const testA* sec_ptr_L3mj = sec_vector_yMs7.data();
+        auto sec_vector_0wIB = ::rpc_parse<testA>(sec_format);
+        const testA* sec_ptr_UBW6 = sec_vector_0wIB.data();
 
-        auto info_vector_kOgq = ::rpc_parse<testA>(info_format);
-        const testA* info_ptr_Mtuo = info_vector_kOgq.data();
+        auto info_vector_Ado2 = ::rpc_parse<testA>(info_format);
+        const testA* info_ptr_lKpC = info_vector_Ado2.data();
 
-        auto result = MtSrvTradeCommissionAgent_55QD_callback_(
-            trade_ptr_uHzK, sec_ptr_L3mj, info_ptr_Mtuo);
-        return std::make_tuple(result, ::rpc_format(trade_ptr_uHzK));
+        auto result = MtSrvTradeCommissionAgent_ZItd_callback_(
+            trade_ptr_yqMo, sec_ptr_UBW6, info_ptr_lKpC);
+        return std::make_tuple(result, ::rpc_format(trade_ptr_yqMo));
       });
 
   dispatcher()->add(
-      "MtSrvHistoryTickApply_49xM",
+      "MtSrvHistoryTickApply_Jy9x",
       [this](std::string symbol_format,
              std::string inf_format) -> std::tuple<std::string> {
-        auto symbol_vector_O9vd = ::rpc_parse<testA>(symbol_format);
-        const testA* symbol_ptr_Wekz = symbol_vector_O9vd.data();
+        auto symbol_vector_DD0z = ::rpc_parse<testA>(symbol_format);
+        const testA* symbol_ptr_fULS = symbol_vector_DD0z.data();
 
-        auto inf_vector_viwJ = ::rpc_parse<testA>(inf_format);
-        testA* inf_ptr_O399 = inf_vector_viwJ.data();
+        auto inf_vector_Q3H9 = ::rpc_parse<testA>(inf_format);
+        testA* inf_ptr_7aXK = inf_vector_Q3H9.data();
 
-        MtSrvHistoryTickApply_49xM_callback_(symbol_ptr_Wekz, inf_ptr_O399);
-        return std::make_tuple(::rpc_format(inf_ptr_O399));
+        MtSrvHistoryTickApply_Jy9x_callback_(symbol_ptr_fULS, inf_ptr_7aXK);
+        return std::make_tuple(::rpc_format(inf_ptr_7aXK));
       });
   return true;
 }

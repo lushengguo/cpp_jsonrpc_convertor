@@ -461,6 +461,10 @@ class RpcGenerator:
 
             body += f"}}\n\n"
 
+        pattern = r'memcmp\(\s*&?(\w+),\s*&?(\w+),\s*sizeof\(LPCSTR\)\s*\)'
+        replacement = r'strcmp(\1, \2)'
+        body = regex.sub(pattern, replacement, body)
+
         body += """
         int main(int argc, char** argv) {
             ::testing::InitGoogleTest(&argc, argv);
